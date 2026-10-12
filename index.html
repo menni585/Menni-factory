@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLEMENS — Luxury Streetwear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0a0a0a',
+                        cardBg: '#141414',
+                        accentGold: '#d4af37'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="bg-darkBg text-white font-sans antialiased selection:bg-accentGold selection:text-black">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-darkBg/90 backdrop-blur-md border-b border-white/10 px-6 py-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold tracking-widest uppercase">CLEMENS</h1>
+        <div class="flex items-center gap-4">
+            <button onclick="toggleAIStylist()" class="text-xs uppercase tracking-wider border border-white/20 px-3 py-1.5 rounded-full hover:border-accentGold hover:text-accentGold transition">AI Stylist</button>
+            <div class="relative cursor-pointer" onclick="toggleCart()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                <span id="cart-count" class="absolute -top-1 -right-1 bg-accentGold text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero / AI Stylist Modal (Hidden by default) -->
+    <div id="ai-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-cardBg border border-white/10 w-full max-w-md rounded-2xl p-6 relative">
+            <button onclick="toggleAIStylist()" class="absolute top-4 right-4 text-white/50 hover:text-white">✕</button>
+            <h2 class="text-lg font-semibold mb-2">CLEMENS AI Stylist</h2>
+            <p class="text-sm text-white/60 mb-4">Lass dir einen individuellen Look zusammenstellen.</p>
+            <div id="ai-chat-box" class="bg-black/40 rounded-xl p-4 h-48 overflow-y-auto text-sm mb-4 space-y-2">
+                <p class="text-white/80">Hey, ich bin dein persönlicher Stylist. Welchen Vibe suchst du heute? (Minimalistisch, Oversized, Techwear?)</p>
+            </div>
+            <div class="flex gap-2">
+                <input type="text" id="ai-input" placeholder="Nachricht an den Stylisten..." class="bg-black/60 border border-white/10 rounded-xl px-4 py-2 text-sm flex-1 focus:outline-none focus:border-accentGold">
+                <button onclick="sendAIMessage()" class="bg-accentGold text-black font-semibold px-4 py-2 rounded-xl text-sm">Senden</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content: Storefront (4 Items with 3D Flip Cards) -->
+    <main class="max-w-6xl mx-auto px-6 py-10">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-light tracking-wider uppercase mb-2">Collection 01</h2>
+            <p class="text-sm text-white/50">Luxury Streetwear — Designed for the Future.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Product 1 -->
+            <div class="perspective-1000 h-96 cursor-pointer" onclick="this.querySelector('.inner-card').classList.toggle('rotate-y-180')">
+                <div class="inner-card relative w-full h-full duration-700 transform-style-3d">
+                    <!-- Front -->
+                    <div class="backface-hidden absolute inset-0 bg-cardBg border border-white/10 rounded-2xl p-4 flex flex-col justify-between">
+                        <div class="h-56 bg-white/5 rounded-xl flex items-center justify-center overflow-hidden">
+                            <span class="text-xs uppercase tracking-widest text-white/40">Balaclava Space Hoodie</span>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">Balaclava Space Hoodie</h3>
+                            <p class="text-accentGold text-sm mt-1">€280.00</p>
+                        </div>
+                    </div>
+                    <!-- Back -->
+                    <div class="backface-hidden absolute inset-0 bg-cardBg border border-accentGold/40 rounded-2xl p-6 rotate-y-180 flex flex-col justify-between text-center">
+                        <div>
+                            <h4 class="font-semibold mb-2">Details</h4>
+                            <p class="text-xs text-white/60 leading-relaxed">Heavyweight French Terry Cotton, integrierte Sturmmaske, Relaxed Fit, handgefertigt in Europa.</p>
+                        </div>
+                        <button onclick="event.stopPropagation(); addToCart('Balaclava Space Hoodie', 280)" class="bg-accentGold text-black font-medium py-2 rounded-xl text-xs uppercase tracking-wider">In den Warenkorb</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="perspective-1000 h-96 cursor-pointer" onclick="this.querySelector('.inner-card').classList.toggle('rotate-y-180')">
+                <div class="inner-card relative w-full h-full duration-700 transform-style-3d">
+                    <div class="backface-hidden absolute inset-0 bg-cardBg border border-white/10 rounded-2xl p-4 flex flex-col justify-between">
+                        <div class="h-56 bg-white/5 rounded-xl flex items-center justify-center overflow-hidden">
+                            <span class="text-xs uppercase tracking-widest text-white/40">Heavy Tee</span>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">Heavy Tee</h3>
+                            <p class="text-accentGold text-sm mt-1">€120.00</p>
+                        </div>
+                    </div>
+                    <div class="backface-hidden absolute inset-0 bg-cardBg border border-accentGold/40 rounded-2xl p-6 rotate-y-180 flex flex-col justify-between text-center">
+                        <div>
+                            <h4 class="font-semibold mb-2">Details</h4>
+                            <p class="text-xs text-white/60 leading-relaxed">350GSM Organic Cotton, Vintage Washed, minimalistisches Branding auf der Brust.</p>
+                        </div>
+                        <button onclick="event.stopPropagation(); addToCart('Heavy Tee', 120)" class="bg-accentGold text-black font-medium py-2 rounded-xl text-xs uppercase tracking-wider">In den Warenkorb</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="perspective-1000 h-96 cursor-pointer" onclick="this.querySelector('.inner-card').classList.toggle('rotate-y-180')">
+                <div class="inner-card relative w-full h-full duration-700 transform-style-3d">
+                    <div class="backface-hidden absolute inset-0 bg-cardBg border border-white/10 rounded-2xl p-4 flex flex-col justify-between">
+                        <div class="h-56 bg-white/5 rounded-xl flex items-center justify-center overflow-hidden">
+                            <span class="text-xs uppercase tracking-widest text-white/40">Denim Shorts</span>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">Denim Shorts</h3>
+                            <p class="text-accentGold text-sm mt-1">€210.00</p>
+                        </div>
+                    </div>
+                    <div class="backface-hidden absolute inset-0 bg-cardBg border border-accentGold/40 rounded-2xl p-6 rotate-y-180 flex flex-col justify-between text-center">
+                        <div>
+                            <h4 class="font-semibold mb-2">Details</h4>
+                            <p class="text-xs text-white/60 leading-relaxed">Raw Japanese Denim, loose fit, distressed Akzente, verstaute Hardware-Details.</p>
+                        </div>
+                        <button onclick="event.stopPropagation(); addToCart('Denim Shorts', 210)" class="bg-accentGold text-black font-medium py-2 rounded-xl text-xs uppercase tracking-wider">In den Warenkorb</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="perspective-1000 h-96 cursor-pointer" onclick="this.querySelector('.inner-card').classList.toggle('rotate-y-180')">
+                <div class="inner-card relative w-full h-full duration-700 transform-style-3d">
+                    <div class="backface-hidden absolute inset-0 bg-cardBg border border-white/10 rounded-2xl p-4 flex flex-col justify-between">
+                        <div class="h-56 bg-white/5 rounded-xl flex items-center justify-center overflow-hidden">
+                            <span class="text-xs uppercase tracking-widest text-white/40">Signature Socks</span>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">Signature Socks</h3>
+                            <p class="text-accentGold text-sm mt-1">€35.00</p>
+                        </div>
+                    </div>
+                    <div class="backface-hidden absolute inset-0 bg-cardBg border border-accentGold/40 rounded-2xl p-6 rotate-y-180 flex flex-col justify-between text-center">
+                        <div>
+                            <h4 class="font-semibold mb-2">Details</h4>
+                            <p class="text-xs text-white/60 leading-relaxed">Gekämmte Baumwolle, verstärkte Fersen, eingewebtes CLEANMS-Logo.</p>
+                        </div>
+                        <button onclick="event.stopPropagation(); addToCart('Signature Socks', 35)" class="bg-accentGold text-black font-medium py-2 rounded-xl text-xs uppercase tracking-wider">In den Warenkorb</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        let cartCount = 0;
+        function addToCart(name, price) {
+            cartCount++;
+            document.getElementById('cart-count').innerText = cartCount;
+            alert(name + ' wurde zum Warenkorb hinzugefügt.');
+        }
+
+        function toggleAIStylist() {
+            const modal = document.getElementById('ai-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function sendAIMessage() {
+            const input = document.getElementById('ai-input');
+            const chatBox = document.getElementById('ai-chat-box');
+            if(!input.value.trim()) return;
+            
+            chatBox.innerHTML += `<p class="text-right text-accentGold">Du: ${input.value}</p>`;
+            const userMsg = input.value;
+            input.value = '';
+
+            setTimeout(() => {
+                chatBox.innerHTML += `<p class="text-left text-white/80">Stylist: Zu deinem Stil passt der Balaclava Hoodie perfekt kombiniert mit den Denim Shorts.</p>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
+</html>
